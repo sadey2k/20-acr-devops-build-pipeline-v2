@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acr-name
+  labels:
+    app: acr-app01
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+    app: acr-app01s
+  template:
+    metadata:
+      labels:
+        app: acr-app01
+    spec:
+      containers:
+      - name: arc-docker-container-name
+        image: acradedemo2.azurecr.io/app2/acrdocke:v1
+        ports:
+          containerPort: 80
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: service
+metadata:
+  name: arc-docker-loadbalancer-service
+  labels:
+    app: arc-docker
+spec: 
+  selector:
+    app: arc-docker
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+
