@@ -77,7 +77,7 @@ stages:
 
 - stage: DeployQA
   displayName: DeployQA
-  dependsOn: Build
+  dependsOn: DeployDev3 
 
   jobs:
   - deployment: Deploy
