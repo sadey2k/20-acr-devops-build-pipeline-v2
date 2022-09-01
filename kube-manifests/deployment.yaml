@@ -8,18 +8,17 @@ spec:
   replicas: 2
   selector:
     matchLabels: 
-     app: acr-app01s
+     app: acr-app01
   template:
     metadata:
       labels:
         app: acr-app01
     spec:
       containers:
-       - name: arc-docker-container-name
+       - name: acr-app01
          image: acradedemo2.azurecr.io/custom2aksnginxapp2
          ports:
-          - containerPort: 80
-            imagePullPolicy: Always
+           - containerPort: 80
 
 ---
 
