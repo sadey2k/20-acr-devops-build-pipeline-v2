@@ -1,36 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-nginx-deployment
+  name: acr-name
   labels:
-    app: app1-nginx
+    app: acr-app01
 spec:
-  replicas: 1
+  replicas: 2
   selector:
-    matchLabels:
-      app: app1-nginx
+    matchLabels: 
+     app: acr-app01s
   template:
     metadata:
       labels:
-        app: app1-nginx
+        app: acr-app01
     spec:
       containers:
-        - name: app1-nginx
-          image: acradedemo2.azurecr.io/custom2aksnginxapp2
-          ports:
-            - containerPort: 80
+      - name: arc-docker-container-name
+        image: acradedemo2.azurecr.io/app2/acrdocke:v1
+        ports:
+          - containerPort: 80
+        imagePullPolicy: Always
+
 ---
+
 apiVersion: v1
-kind: Service
+kind: service
 metadata:
-  name: app1-nginx-loadbalancer-service
+  name: arc-docker-loadbalancer-service
   labels:
-    app: app1-nginx
-spec:
-  type: LoadBalancer
+    app: arc-docker
+spec: 
   selector:
-    app: app1-nginx
+    app: arc-docker
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80
-
