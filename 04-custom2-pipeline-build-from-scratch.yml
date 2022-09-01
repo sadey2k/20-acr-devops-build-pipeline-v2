@@ -9,7 +9,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build Job
-    pool: 'TestBuildAgent'
+    pool: 'TestAgentPool'
     steps:
     - task: Docker@2
       inputs:
