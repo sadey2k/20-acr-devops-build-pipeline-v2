@@ -13,7 +13,7 @@ kubectl create ns prod
 23-prod-ns-aks-svc
 
 ##########################################
-## Step-03: Creat  Release Pipelines ##
+## Step-03: Create  Release Pipelines ##
 ##########################################
 Empty jpb
 Add Artifact 
@@ -37,9 +37,43 @@ Add Tasks
         - Kubernetes Service connection = 23-dev-ns-aks-svc
         - Namespace = dev
         - Manifests = manifest location 
-        - Containers = acradedemo2.azurecr.io/custom2aksnginxapp2 # container created during Docker build and push to ACR
+        - Containers = acradedemo2.azurecr.io/custom2aksnginxapp2:$(Build.BuildId) TAG included # container created during Docker build and push to ACR
         - Image Pull Secrets = dev-acradedemo2-secret # created during create secret task
 
     - Change pipeline name to = 01-app1-release-pipeline
 
-    
+#############################################################
+## Step-04: Deploy Release Pipelines and check deployment ##
+#############################################################
+# Get Public IP
+kubectl get svc -n dev
+
+# Access Application
+http://<Public-IP-from-Get-Service-Output>
+
+
+########################################################################################
+## Step-05: Update Deploy to AKS Task with Build.SourceVersion in Release Pipelines ##
+########################################################################################
+ #Before
+Containers: aksdevopsacr.azurecr.io/custom2aksnginxapp1:$(Build.BuildId)
+
+# After
+Containers: aksdevopsacr.azurecr.io/custom2aksnginxapp1:$(Build.SourceVersion)   
+
+
+#############################################################
+## Step-06: Create QA, Staging and Prod Release Pipelines ##
+#############################################################
+Clone stages
+    - qa
+    - prod
+Update to following:
+    - create secret
+        - service connection 
+        - namespace
+        - secret name
+    - Deploy to AKS
+        - service connection 
+        - namespace
+        - ImagePullSecret 
