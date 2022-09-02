@@ -26,12 +26,12 @@ spec:
 apiVersion: v1
 kind: service
 metadata:
-  name: arc-docker-loadbalancer-service
+  name: acr-app01-loadbalancer-service
   labels:
-    app: arc-docker
+    app: acr-app01
 spec: 
   selector:
-    app: arc-docker
+    app: acr-app01
   type: LoadBalancer
   ports:
     - port: 80
