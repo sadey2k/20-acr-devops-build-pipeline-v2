@@ -3,6 +3,10 @@
 trigger:
 - master
 
+# variables
+variables:
+  tag: '$(Build.BuildId)'
+
 stages:
 - stage: Build
   displayName: Build Stage
@@ -17,6 +21,8 @@ stages:
         repository: 'custom2aksnginxapp2'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: 
+          $(tag)
       
 ## Publish Artifacts pipeline code in addition to Build and Push          
     #- bash: echo Contents in System Default Working Directory; ls -R $(System.DefaultWorkingDirectory)        
